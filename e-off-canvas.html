@@ -1,0 +1,84 @@
+<!--El patrón más complejo de implementar pero uno de los más utilizados, sobre todo en aplicaciones móviles.
+Este patrón esconde contenido en la pantalla y únicamente es visible si realizamos un determinado gesto. Este contenido oculto normalmente es un menú de navegación. Cuando la pantalla es más ancha, este contenido se hace visible.-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Off Canvas</title>
+	<style type="text/css">
+		.columna1 {
+		  position: absolute;
+		  width: 250px;
+		  height: 100vh;
+		  -webkit-transition: -webkit-transform 0.3s ease-out;
+		  transition: transform 0.3s ease-out;
+		  z-index: 1;
+		  background-color: #FF0000;
+		  /* por defecto la columna va a estar oculta */
+		  -webkit-transform: translate(-250px, 0);
+  		  transform: translate(-250px, 0);
+		}
+
+		/* clase que hace que la columna este visible */
+		.columna1.open {
+		  -webkit-transform: translate(0, 0);
+		  transform: translate(0,0);
+		}
+
+		/* la columna 2 ocupa todo el alto y ancho de la pantalla */
+		.columna2 {
+		  width: 100%;
+		  height: 100vh;
+		  position: absolute;
+		  background-color: #0000FF;
+		}
+
+		/* cuando el ancho de la pantalla es mayor a 600px, se muestran las 2 columnas */
+		@media (min-width: 600px) {
+		  .container {
+		    display: -webkit-flex;
+		    display: flex;
+		    -webkit-flex-flow: row nowrap;
+		    flex-flow: row nowrap;
+		  }
+
+		  .columna1 {
+		    -webkit-transform: translate(0, 0);
+		    transform: translate(0, 0);
+		  }
+		}
+
+		body{
+			background-color: #999999;
+		}
+		nav{
+			background-color: #F0F0F0;
+			height: 40px;
+		}
+	</style>
+</head>
+<body>
+	<nav>Navbar</nav>
+	<div class="container">
+		<section id="sidePanel" class="columna1">Sección 1</section>
+		<section id="mainPanel" class="columna2">Sección 2</section>
+	</div>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.4/hammer.min.js"></script>  
+	<script type="text/javascript">
+		(function(){
+		  var mainPanel = document.getElementById('mainPanel');
+		  var sidePanel = document.getElementById('sidePanel');
+
+		  var hammerPanel = new Hammer(mainPanel);
+
+		  hammerPanel
+		    .on('swiperight', function(e) {
+		      sidePanel.classList.toggle('open');
+		    })
+		    .on('swipeleft', function(e) {
+		      sidePanel.classList.toggle('open');
+		    });
+		}());
+	</script>
+</body>
+</html>
